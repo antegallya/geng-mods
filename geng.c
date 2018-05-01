@@ -493,6 +493,7 @@ static nauty_counter nodes[MAXN];     /* nodes at each level */
 static unsigned long rigidnodes[MAXN],fertilenodes[MAXN];
 static unsigned long a1calls,a1nauty,a1succs;
 static unsigned long a2calls,a2nauty,a2uniq,a2succs;
+static unsigned long usrautomprccalls;
 #endif
 
 /* The numbers below are actual maximum edge counts.  The apparently
@@ -1067,6 +1068,9 @@ userautomproc(int count, int *p, int *orbits,
     lo = data[n].lo;
     hi = data[n].hi;
 
+#ifdef INSTRUMENT
+    ++usrautomprccalls;
+#endif
     if (count == 1)                         /* first automorphism */
         for (i = lo; i < hi; ++i) xorb[i] = i;
 
@@ -2418,6 +2422,7 @@ PLUGIN_INIT
     fprintf(stderr,
          ">A2 %lu calls to accept2, %lu nuniq, %lu nauty, %lu succeeded\n",
                     a2calls,a2uniq,a2nauty,a2succs);
+    fprintf(stderr,">A3 %lu calls to userautomproc\n",usrautomprccalls);
     fprintf(stderr,"\n");
 #endif
 
