@@ -14,11 +14,11 @@ PROGS=$(addprefix ${PROGPREFFIX}, ${PRUNERS})
 
 all: ${PROGS}
 
-debug: CFLAGS+=-p -g -DINSTRUMENT
+debug: CFLAGS+=-O0 -p -g -DINSTRUMENT
 debug:all
 
 ${PROGPREFFIX}%: pruners.c geng.c
-	${CC} -o $@ ${CFLAGS} ${W1} -DPREPRUNE=$* -DPRUNE=$* $^ ${LDFLAGS}
+	${CC} -o $@ ${CFLAGS} ${W1} -DPREPRUNE=$* $^ ${LDFLAGS}
 
 clean:
 	rm -f ${PROGS}
